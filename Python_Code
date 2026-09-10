@@ -1,0 +1,81 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Read Excel file
+df = pd.read_excel("Bank.xlsx")
+
+# Create a figure with 6 subplots
+plt.figure(figsize=(15, 18))
+
+# 1. Annual Income by Income Group
+plt.subplot(3, 2, 1)
+plt.plot(
+    df.groupby("Income_Group")["Annual_Income"].sum(),
+    marker="o"
+)
+plt.title("Annual Income by Income Group")
+plt.xlabel("Income Group")
+plt.ylabel("Annual Income")
+plt.xticks(rotation=45)
+
+# 2. Monthly Income by Debt Risk Category
+plt.subplot(3, 2, 2)
+plt.plot(
+    df.groupby("Debt_Risk_Category")["Monthly_Income"].sum(),
+    marker="o"
+)
+plt.title("Monthly Income by Debt Risk Category")
+plt.xlabel("Debt Risk Category")
+plt.ylabel("Monthly Income")
+plt.xticks(rotation=45)
+
+# 3. Monthly Income by Debt Risk Category - Bar Chart
+plt.subplot(3, 2, 3)
+plt.bar(
+    df.groupby("Debt_Risk_Category")["Monthly_Income"].sum().index,
+    df.groupby("Debt_Risk_Category")["Monthly_Income"].sum()
+)
+plt.title("Monthly Income by Debt Risk Category")
+plt.xlabel("Debt Risk Category")
+plt.ylabel("Monthly Income")
+plt.xticks(rotation=45)
+
+# 4. Age Wise Credit Score
+plt.subplot(3, 2, 4)
+plt.bar(
+    df.groupby("Age_Group")["Credit_Score"].mean().index,
+    df.groupby("Age_Group")["Credit_Score"].mean()
+)
+plt.title("Age Wise Credit Score")
+plt.xlabel("Age Group")
+plt.ylabel("Average Credit Score")
+plt.xticks(rotation=45)
+
+# 5. Credit Score by Age Group
+plt.subplot(3, 2, 5)
+plt.bar(
+    df["Age_Group"],
+    df["Credit_Score"]
+)
+plt.title("Credit Score by Age Group")
+plt.xlabel("Age Group")
+plt.ylabel("Credit Score")
+plt.xticks(rotation=45)
+
+# 6. Annual Income vs Income Group
+plt.subplot(3, 2, 6)
+sns.scatterplot(
+    x="Annual_Income",
+    y="Income_Group",
+    data=df
+)
+plt.title("Annual Income vs Income Group")
+plt.xlabel("Annual Income")
+plt.ylabel("Income Group")
+
+# Adjust layout
+plt.tight_layout()
+
+# Display all charts
+plt.show()
